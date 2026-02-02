@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         RouteSeeder::class,
         GareSeeder::class,
          BusSeeder::class,
+         ProgramSeeder::class,
        ]);
     }
 }
