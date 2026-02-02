@@ -6,16 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('programmes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+public function up()
+{
+    Schema::create('programmes', function (Blueprint $table) {
+        $table->id();
+        $table->string('matricule', 50);
+        $table->integer('charge_max');
+        $table->boolean('actif')->default(true);
+    });
+}
+
 
     /**
      * Reverse the migrations.

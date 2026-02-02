@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('gares', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-        });
+            $table->string("nom");
+            $table->string("adress");        
+
+               });
     }
 
     /**
