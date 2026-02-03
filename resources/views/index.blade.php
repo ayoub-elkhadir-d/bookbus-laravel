@@ -28,66 +28,78 @@
         </div>
 
         <!-- Search Engine -->
-        <form class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+     <form method="GET" action="{{ route('search.results') }}"
+      class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
 
-            <!-- From -->
-            <div>
-                <label class="block text-sm font-medium text-gray-600 mb-1">Départ</label>
-                <select name="from_segment" class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    <option value="">Ville de départ</option>
-                    @foreach($segments as $segment)
-                        <option value="{{ $segment->id }}">{{ $segment->departure_city }}</option>
-                    @endforeach
-                </select>
-            </div>
+    <!-- From -->
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Départ</label>
+        <select name="from_city" class="w-full rounded-xl border px-4 py-3 text-black">
+            <option value="">Ville de départ</option>
+            @foreach($segments as $segment)
+                <option value="{{ $segment->departure_city }}">
+                    {{ $segment->departure_city }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
-            <!-- To -->
-            <div>
-                <label class="block text-sm font-medium text-gray-600 mb-1">Destination</label>
-                <select name="to_segment" class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    <option value="">Ville de destination</option>
-                    @foreach($segments as $segment)
-                        <option value="{{ $segment->id }}" class="w-full rounded-xl border border-gray-300 px-4 py-3 text-black
-           focus:ring-2 focus:ring-indigo-500 focus:outline-none">{{ $segment->departure_city }}</option>
-                    @endforeach
-                </select>
-            </div>
+    <!-- To -->
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Destination</label>
+        <select name="to_city" class="w-full rounded-xl border px-4 py-3 text-black">
+            <option value="">Ville de destination</option>
+            @foreach($segments as $segment)
+                <option value="{{ $segment->arrival_city }}">
+                    {{ $segment->arrival_city }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
-            <!-- Date -->
-            <div>
-                <label class="block text-sm font-medium text-gray-600 mb-1">Date</label>
-                <input type="date"
-                    class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </div>
+    <!-- Date -->
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Date</label>
+        <input type="date" name="date"
+               class="w-full rounded-xl border px-4 py-3 text-black">
+    </div>
 
-            <!-- Button -->
-            <div class="flex items-end">
-                <button type="submit"
-                    class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 rounded-xl hover:scale-105 transition-transform duration-300 shadow-lg">
-                    Rechercher
-                </button>
-            </div>
+    <button class="bg-indigo-600 text-white py-3 rounded-xl">
+        Rechercher
+    </button>
+</form>
 
-        </form>
 
-        <!-- Features -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-center">
-            <div class="p-5 rounded-2xl bg-gray-50">
-                <div class="text-indigo-600 text-3xl mb-2">🚌</div>
-                <h3 class="font-semibold text-gray-800">Bus modernes</h3>
-                <p class="text-sm text-gray-500 mt-1">Confort et sécurité garantis</p>
+<hr class="my-10 border-gray-200">
+
+@if(isset($results))
+    <div class="mt-10">
+        <h2 class="text-2xl font-bold mb-6">Résultats disponibles</h2>
+
+        @forelse($results as $trip)
+            <div class="p-5 mb-4 border rounded-xl shadow-sm">
+                <div class="flex justify-between">
+                    <div>
+                        <strong>{{ $trip->departure_city }}</strong>
+                        →
+                        <strong>{{ $trip->arrival_city }}</strong>
+                        <p class="text-sm text-gray-500">
+                            Heure: {{ $trip->departure_time }}
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-indigo-600">
+                            {{ $trip->tarif }} MAD
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="p-5 rounded-2xl bg-gray-50">
-                <div class="text-indigo-600 text-3xl mb-2">⏱️</div>
-                <h3 class="font-semibold text-gray-800">Réservation rapide</h3>
-                <p class="text-sm text-gray-500 mt-1">En moins d'une minute</p>
-            </div>
-            <div class="p-5 rounded-2xl bg-gray-50">
-                <div class="text-indigo-600 text-3xl mb-2">💳</div>
-                <h3 class="font-semibold text-gray-800">Paiement sécurisé</h3>
-                <p class="text-sm text-gray-500 mt-1">100% fiable et protégé</p>
-            </div>
-        </div>
+        @empty
+            <p class="text-gray-500">Aucun trajet disponible</p>
+        @endforelse
+    </div>
+@endif
+
 
     </div>
 
