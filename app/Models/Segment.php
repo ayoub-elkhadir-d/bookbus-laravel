@@ -18,11 +18,15 @@ class Segment extends Model
     
     public function route()
     {
-        return $this->belongsTo(Route::class);
+        return $this->belongsTo(Route::class,'bus_id');
     }
 
-    public function bus()
-    {
-        return $this->belongsTo(Bus::class);
+    public function bus(){
+        return $this->belongsTo(Bus::class,'id_route');
     }
+    public function programes()
+    {
+    return $this->hasMany(Programe::class);
+}
+
 }

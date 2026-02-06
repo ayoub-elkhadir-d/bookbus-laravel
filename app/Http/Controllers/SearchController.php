@@ -3,29 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Segment;
+use App\Models\Programe;
+
 class SearchController extends Controller
 {
-     public function index()
-    {
-        $segments = Segment::select('departure_city', 'arrival_city')
-            ->distinct()
-            ->get();
 
-        return view('index', compact('segments'));
+    public function index()
+    {
+       
+        $departureCities = Segment::select('departure_city')
+            ->distinct()
+            ->pluck('departure_city');
+
+        $arrivalCities = Segment::select('arrival_city')
+            ->distinct()
+            ->pluck('arrival_city');
+
+        return view('index', compact('departureCities', 'arrivalCities'));
     }
 
     public function search(Request $request)
-    {
-        $segments = Segment::select('departure_city', 'arrival_city')
+    {    
+      
+       
+        $departureCities = Segment::select('departure_city')
             ->distinct()
-            ->get();
+            ->pluck('departure_city');
+
+        $arrivalCities = Segment::select('arrival_city')
+            ->distinct()
+            ->pluck('arrival_city');
 
         $results = Segment::where('departure_city', $request->from_city)
             ->where('arrival_city', $request->to_city)
             ->get();
 
-        return view('index', compact('segments', 'results'));
+         $programs = Programe::with('segment')->get();
+       foreach($programs as $p){
+          foreach($results as $r){
+             if($p->jour_depart == $request->date && $p->route_id == $r->id_route){
+                  return view('index', compact('departureCities', 'arrivalCities', 'results'));
+             }else{
+                $results = [];
+                 return view('index', compact('departureCities', 'arrivalCities', 'results'));
+             }
+
+          }
+      
+       }
+       
+
+       
     }
+     
 }

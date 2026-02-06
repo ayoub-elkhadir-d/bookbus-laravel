@@ -8,15 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class RouteSeeder extends Seeder
 {
-	/**
-	 * Run the database seeds.
-	 */
+
 	public function run(): void
 	{
 		DB::table('routes')->insert([
 			[
 			'nom_trajet' => 'Casablanca - Rabat - fes',
-
 			],[
 			'nom_trajet' => 'Rabat - Marrakech',
 

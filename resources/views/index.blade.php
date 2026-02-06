@@ -26,9 +26,13 @@
             <h1 class="text-4xl font-bold text-gray-800">Réservez votre voyage en bus</h1>
             <p class="text-gray-500 mt-2">Trouvez les meilleurs trajets au meilleur prix</p>
         </div>
+    <div>
 
+         
+      
+     </div>
         <!-- Search Engine -->
-     <form method="GET" action="{{ route('search.results') }}"
+    <form method="GET" action="{{ route('search.results') }}"
       class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
 
     <!-- From -->
@@ -36,10 +40,8 @@
         <label class="block text-sm font-medium text-gray-600 mb-1">Départ</label>
         <select name="from_city" class="w-full rounded-xl border px-4 py-3 text-black">
             <option value="">Ville de départ</option>
-            @foreach($segments as $segment)
-                <option value="{{ $segment->departure_city }}">
-                    {{ $segment->departure_city }}
-                </option>
+            @foreach($departureCities as $city)
+                <option value="{{ $city }}">{{ $city }}</option>
             @endforeach
         </select>
     </div>
@@ -49,10 +51,8 @@
         <label class="block text-sm font-medium text-gray-600 mb-1">Destination</label>
         <select name="to_city" class="w-full rounded-xl border px-4 py-3 text-black">
             <option value="">Ville de destination</option>
-            @foreach($segments as $segment)
-                <option value="{{ $segment->arrival_city }}">
-                    {{ $segment->arrival_city }}
-                </option>
+            @foreach($arrivalCities as $city)
+                <option value="{{ $city }}">{{ $city }}</option>
             @endforeach
         </select>
     </div>
@@ -69,12 +69,14 @@
     </button>
 </form>
 
-
 <hr class="my-10 border-gray-200">
 
 @if(isset($results))
     <div class="mt-10">
         <h2 class="text-2xl font-bold mb-6">Résultats disponibles</h2>
+
+       
+
 
         @forelse($results as $trip)
             <div class="p-5 mb-4 border rounded-xl shadow-sm">
@@ -92,6 +94,9 @@
                             {{ $trip->tarif }} MAD
                         </p>
                     </div>
+                    <form action="" method="post">
+                    <button type="button">Reserver</button>
+                    </form>
                 </div>
             </div>
         @empty
@@ -99,7 +104,7 @@
         @endforelse
     </div>
 @endif
-
+    
 
 
     </div>
